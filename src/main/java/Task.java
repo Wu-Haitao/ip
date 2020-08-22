@@ -6,4 +6,10 @@ public class Task {
         this.description = description;
         this.isDone = false;
     }
+
+    @Override
+    public String toString() {
+        char status = (this.isDone)? '✓':'✗';
+        return String.format("[%c] %s", status, this.description);
+    }
 }

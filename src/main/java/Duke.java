@@ -6,7 +6,7 @@ class Duke {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        String command = "";
+        String text = "";
 
         drawHorizontalLine(40);
         showLogo();
@@ -15,25 +15,79 @@ class Duke {
         drawHorizontalLine(40);
 
         do {
-            command = scan.nextLine();
-            echo(command);
-        } while (!command.equals("bye"));
+            text = scan.nextLine();
+            echo(text);
+        } while (!text.equals("bye"));
 
     }
 
-    private static void add(String text) {
-        tasks[taskNum] = new Task(text);
+    private static void addToDo(String text) {
+        tasks[taskNum] = new ToDo(text.trim());
+        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
         taskNum++;
-        System.out.println("Added: " + text);
+        countTaskNumber();
     }
 
-    private static void markAsDone(int taskIndex) {
-        System.out.println("OK! I've marked this task as done:");
-        System.out.println("[✓] " + tasks[taskIndex].description);
-        tasks[taskIndex].isDone = true;
+    private static void addDeadline(String text) {
+        int dividePoint = text.indexOf("/by");
+        if (dividePoint != -1) {
+            tasks[taskNum] = new Deadline(text.substring(0, dividePoint).trim(), text.substring(dividePoint + 3, text.length()).trim());
+            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
+            taskNum++;
+        } else {
+            System.out.println("Invalid task.");
+        }
+        countTaskNumber();
     }
 
-    private static void echo(String command) {
+    private static void addEvent(String text) {
+        int dividePoint = text.indexOf("/at");
+        if (dividePoint != -1) {
+            tasks[taskNum] = new Event(text.substring(0, dividePoint).trim(), text.substring(dividePoint + 3, text.length()).trim());
+            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
+            taskNum++;
+        } else {
+            System.out.println("Invalid task.");
+        }
+        countTaskNumber();
+    }
+
+    private static void countTaskNumber() {
+        switch (taskNum) {
+        case 0:
+            System.out.println("You don't have any task in the list now.");
+            break;
+        case 1:
+            System.out.println("You have 1 task in the list now.");
+            break;
+        default:
+            System.out.println(String.format("You have %d tasks in the list now.", taskNum));
+            break;
+        }
+    }
+
+    private static void markAsDone(String taskInfo) {
+        boolean isNum = true;
+        int taskIndex = -1;
+        for (int i = 0; i < taskInfo.length(); i++) {
+            if (!Character.isDigit(taskInfo.charAt(i))) {
+                isNum = false;
+                break;
+            }
+        }
+        if (isNum) taskIndex = Integer.parseInt(taskInfo) - 1;
+        if ((taskIndex != -1) && (taskIndex < taskNum )) {
+            System.out.println("OK! I've marked this task as done:");
+            tasks[taskIndex].isDone = true;
+            System.out.println(tasks[taskIndex]);
+
+        } else {
+            System.out.println("This task doesn't exist!");
+        }
+    }
+
+    private static void echo(String text) {
+        String command = (!text.contains(" "))? text:text.substring(0,text.indexOf(" "));
         switch (command) {
         case "list":
             list();
@@ -44,26 +98,20 @@ class Duke {
         case "bye":
             exit();
             break;
+        case "done":
+            markAsDone(text.substring(5, text.length()));
+            break;
+        case "todo":
+            addToDo(text.substring(5, text.length()));
+            break;
+        case "deadline":
+            addDeadline(text.substring(9, text.length()));
+            break;
+        case "event":
+            addEvent(text.substring(6, text.length()));
+            break;
         default:
-            if (command.substring(0, 5).equals("done ")) {
-                boolean isNum = true;
-                for (int i = 5; i < command.length(); i++) {
-                    if (!Character.isDigit(command.charAt(i))) {
-                        isNum = false;
-                        break;
-                    }
-                }
-                if (isNum) {
-                    int taskIndex = Integer.parseInt(command.substring(5, command.length())) - 1;
-                    if ((taskIndex < taskNum) && (taskIndex >= 0)) {
-                        markAsDone(taskIndex);
-                        break;
-                    }
-                }
-                System.out.println("This task doesn't exist!");
-                break;
-            }
-            add(command);
+            System.out.println("Invalid command.");
             break;
         }
         drawHorizontalLine(40);
@@ -72,8 +120,7 @@ class Duke {
     private static void list() {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < taskNum; i++) {
-            Character status = (tasks[i].isDone)? '✓':'✗';
-            System.out.println(String.format("%d.[%c] %s", i + 1, status, tasks[i].description));
+            System.out.println(String.format("%d.%s", i + 1, tasks[i]));
         }
     }
 
@@ -91,9 +138,7 @@ class Duke {
     }
 
     private static void drawHorizontalLine(int length) {
-        String horizontalLine = "";
-        for (int i = 0; i < length; i++) horizontalLine += '-';
-        System.out.println(horizontalLine);
+        System.out.println("-".repeat(Math.max(0, length)));
     }
 
     private static void greet() {
