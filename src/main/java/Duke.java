@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 class Duke {
+    private static int textNum = 0;
+    private static String[] texts = new String[100];
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         String command = "";
@@ -18,6 +21,12 @@ class Duke {
 
     }
 
+    private static void add(String text) {
+        texts[textNum] = text;
+        textNum++;
+        System.out.println("added: " + text);
+    }
+
     private static void echo(String command) {
         switch (command) {
         case "list":
@@ -30,14 +39,16 @@ class Duke {
             exit();
             break;
         default:
-            System.out.println("Invalid command.");
+            add(command);
             break;
         }
         drawHorizontalLine(40);
     }
 
     private static void list() {
-        System.out.println("List");
+        for (int i = 0; i < textNum; i++) {
+            System.out.println(String.format("%d. ", i + 1) + texts[i]);
+        }
     }
 
     private static void joke() {
