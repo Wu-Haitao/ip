@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 class Duke {
-    private static int textNum = 0;
-    private static String[] texts = new String[100];
+    private static int taskNum;
+    private static Task[] tasks = new Task[100];
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -22,9 +22,15 @@ class Duke {
     }
 
     private static void add(String text) {
-        texts[textNum] = text;
-        textNum++;
-        System.out.println("added: " + text);
+        tasks[taskNum] = new Task(text);
+        taskNum++;
+        System.out.println("Added: " + text);
+    }
+
+    private static void markAsDone(int taskIndex) {
+        System.out.println("OK! I've marked this task as done:");
+        System.out.println("[✓] " + tasks[taskIndex].description);
+        tasks[taskIndex].isDone = true;
     }
 
     private static void echo(String command) {
@@ -39,6 +45,24 @@ class Duke {
             exit();
             break;
         default:
+            if (command.substring(0, 5).equals("done ")) {
+                boolean isNum = true;
+                for (int i = 5; i < command.length(); i++) {
+                    if (!Character.isDigit(command.charAt(i))) {
+                        isNum = false;
+                        break;
+                    }
+                }
+                if (isNum) {
+                    int taskIndex = Integer.parseInt(command.substring(5, command.length())) - 1;
+                    if ((taskIndex < taskNum) && (taskIndex >= 0)) {
+                        markAsDone(taskIndex);
+                        break;
+                    }
+                }
+                System.out.println("This task doesn't exist!");
+                break;
+            }
             add(command);
             break;
         }
@@ -46,8 +70,10 @@ class Duke {
     }
 
     private static void list() {
-        for (int i = 0; i < textNum; i++) {
-            System.out.println(String.format("%d. ", i + 1) + texts[i]);
+        System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < taskNum; i++) {
+            Character status = (tasks[i].isDone)? '✓':'✗';
+            System.out.println(String.format("%d.[%c] %s", i + 1, status, tasks[i].description));
         }
     }
 
