@@ -1,0 +1,10 @@
+todo task1
+todo task2
+deadline task3 /by this Friday
+event task4 /at next Sunday
+list
+done 2
+done 4
+list
+joke
+bye

@@ -125,7 +125,7 @@ class Duke {
     }
 
     private static void joke() {
-        System.out.println("There are only 10 kinds of people in this world:\nthose who know binary and those who don’t.");
+        System.out.println("There are only 10 kinds of people in this world:\nthose who know binary and those who don't.");
     }
 
     private static void showLogo() {
@@ -133,7 +133,8 @@ class Duke {
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
+                + "|____/ \\__,_|_|\\_\\___|\n"
+                + "Modified by Wu Haitao\n";
         System.out.println("Hello from\n" + logo);
     }
 

@@ -9,7 +9,7 @@ public class Task {
 
     @Override
     public String toString() {
-        char status = (this.isDone)? '✓':'✗';
+        char status = (this.isDone)? '/':'X';
         return String.format("[%c] %s", status, this.description);
     }
 }
