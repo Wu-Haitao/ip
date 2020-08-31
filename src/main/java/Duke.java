@@ -21,35 +21,54 @@ class Duke {
 
     }
 
-    private static void addToDo(String text) {
-        tasks[taskNum] = new ToDo(text.trim());
-        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
-        taskNum++;
-        countTaskNumber();
+    private static void addToDo(String description) throws InvalidCommandException{
+        description = description.trim();
+        if (description.equals("")) throw new InvalidCommandException(1);
+        try {
+            tasks[taskNum] = new ToDo(description);
+            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
+            taskNum++;
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.out.println("Couldn't add this task because the list is full.");
+        } finally {
+            countTaskNumber();
+        }
+
     }
 
-    private static void addDeadline(String text) {
+    private static void addDeadline(String text) throws InvalidCommandException{
         int dividePoint = text.indexOf("/by");
-        if (dividePoint != -1) {
-            tasks[taskNum] = new Deadline(text.substring(0, dividePoint).trim(), text.substring(dividePoint + 3, text.length()).trim());
+        if (dividePoint == -1) throw new InvalidCommandException(2);
+        String description = text.substring(0, dividePoint).trim();
+        String by = text.substring(dividePoint + 3, text.length()).trim();
+        if (description.equals("") || by.equals("")) throw new InvalidCommandException(2);
+        try {
+            tasks[taskNum] = new Deadline(description, by);
             System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
             taskNum++;
-        } else {
-            System.out.println("Invalid task.");
+        } catch(ArrayIndexOutOfBoundsException exception) {
+            System.out.println("Couldn't add this task because the list is full.");
+        } finally {
+            countTaskNumber();
         }
-        countTaskNumber();
     }
 
-    private static void addEvent(String text) {
+    private static void addEvent(String text) throws InvalidCommandException{
         int dividePoint = text.indexOf("/at");
-        if (dividePoint != -1) {
-            tasks[taskNum] = new Event(text.substring(0, dividePoint).trim(), text.substring(dividePoint + 3, text.length()).trim());
+        if (dividePoint == -1) throw new InvalidCommandException(3);
+        String description = text.substring(0, dividePoint).trim();
+        String at = text.substring(dividePoint + 3, text.length()).trim();
+        if (description.equals("") || at.equals("")) throw new InvalidCommandException(3);
+        try {
+            tasks[taskNum] = new Event(description, at);
             System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
             taskNum++;
-        } else {
-            System.out.println("Invalid task.");
+        } catch(ArrayIndexOutOfBoundsException exception) {
+            System.out.println("Couldn't add this task because the list is full.");
+        } finally {
+            countTaskNumber();
         }
-        countTaskNumber();
+
     }
 
     private static void countTaskNumber() {
@@ -66,7 +85,8 @@ class Duke {
         }
     }
 
-    private static void markAsDone(String taskInfo) {
+    private static void markAsDone(String taskInfo) throws InvalidCommandException {
+        taskInfo = taskInfo.trim();
         boolean isNum = true;
         int taskIndex = -1;
         for (int i = 0; i < taskInfo.length(); i++) {
@@ -75,44 +95,67 @@ class Duke {
                 break;
             }
         }
-        if (isNum) taskIndex = Integer.parseInt(taskInfo) - 1;
-        if ((taskIndex != -1) && (taskIndex < taskNum )) {
-            System.out.println("OK! I've marked this task as done:");
-            tasks[taskIndex].isDone = true;
-            System.out.println(tasks[taskIndex]);
-
+        if (isNum && (!taskInfo.equals(""))) {
+            taskIndex = Integer.parseInt(taskInfo) - 1;
         } else {
+            throw new InvalidCommandException(4);
+        }
+        try {
+            tasks[taskIndex].isDone = true;
+            System.out.println("OK! I've marked this task as done:");
+            System.out.println(tasks[taskIndex]);
+        } catch(Exception exception) {
             System.out.println("This task doesn't exist!");
         }
     }
 
     private static void echo(String text) {
         String command = (!text.contains(" "))? text:text.substring(0,text.indexOf(" "));
-        switch (command) {
-        case "list":
-            list();
-            break;
-        case "joke":
-            joke();
-            break;
-        case "bye":
-            exit();
-            break;
-        case "done":
-            markAsDone(text.substring(5, text.length()));
-            break;
-        case "todo":
-            addToDo(text.substring(5, text.length()));
-            break;
-        case "deadline":
-            addDeadline(text.substring(9, text.length()));
-            break;
-        case "event":
-            addEvent(text.substring(6, text.length()));
-            break;
-        default:
-            System.out.println("Invalid command.");
-            break;
+        try {
+            switch (command) {
+            case "list":
+                list();
+                break;
+            case "joke":
+                joke();
+                break;
+            case "bye":
+                exit();
+                break;
+            case "done":
+                markAsDone(text.substring(4, text.length()));
+                break;
+            case "todo":
+                addToDo(text.substring(4, text.length()));
+                break;
+            case "deadline":
+                addDeadline(text.substring(8, text.length()));
+                break;
+            case "event":
+                addEvent(text.substring(5, text.length()));
+                break;
+            default:
+                throw new InvalidCommandException(0);
+            }
+        } catch (InvalidCommandException exception) {
+            switch (exception.exceptionCode) {
+            case 0:
+                System.out.println("No such command!");
+                break;
+            case 1:
+                System.out.println("Incorrect command line argument(s).\ntodo -taskName");
+                break;
+            case 2:
+                System.out.println("Incorrect command line argument(s).\ndeadline -taskName /by taskTime");
+                break;
+            case 3:
+                System.out.println("Incorrect command line argument(s).\nevent -taskName /at taskTime");
+                break;
+            case 4:
+                System.out.println("Incorrect command line argument(s).\ndone -taskIndex");
+                break;
+            }
+
         }
         drawHorizontalLine(40);
     }
