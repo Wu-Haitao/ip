@@ -34,16 +34,16 @@ Here are the tasks in your list:
 4.[E][X] task4 (at: next Sunday)
 ----------------------------------------
 OK! I've marked this task as done:
-[T][/] task2
+[T][V] task2
 ----------------------------------------
 OK! I've marked this task as done:
-[E][/] task4 (at: next Sunday)
+[E][V] task4 (at: next Sunday)
 ----------------------------------------
 Here are the tasks in your list:
 1.[T][X] task1
-2.[T][/] task2
+2.[T][V] task2
 3.[D][X] task3 (by: this Friday)
-4.[E][/] task4 (at: next Sunday)
+4.[E][V] task4 (at: next Sunday)
 ----------------------------------------
 There are only 10 kinds of people in this world:
 those who know binary and those who don't.

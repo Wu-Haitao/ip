@@ -2,17 +2,19 @@ import java.util.Scanner;
 
 class Duke {
     private static int taskNum;
-    private static Task[] tasks = new Task[100];
+    private static int MAX_TASK_SIZE = 100;
+    private static int LINE_CHAR_NUM = 40;
+    private static Task[] tasks = new Task[MAX_TASK_SIZE];
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         String text = "";
 
-        drawHorizontalLine(40);
+        drawHorizontalLine(LINE_CHAR_NUM);
         showLogo();
-        drawHorizontalLine(40);
+        drawHorizontalLine(LINE_CHAR_NUM);
         greet();
-        drawHorizontalLine(40);
+        drawHorizontalLine(LINE_CHAR_NUM);
 
         do {
             text = scan.nextLine();
