@@ -11,6 +11,8 @@ Modified by Wu Haitao
 Hello! I'm Duke.
 What can I do for you?
 ----------------------------------------
+You don't have any tasks in your list now.
+----------------------------------------
 Got it. I've added this task to your list:
 [T][X] task1
 You have 1 task in the list now.

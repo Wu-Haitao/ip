@@ -1,3 +1,4 @@
+list
 todo task1
 todo task2
 deadline task3 /by this Friday

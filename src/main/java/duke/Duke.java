@@ -198,9 +198,13 @@ class Duke {
     }
 
     private static void list() {
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(String.format("%d.%s", i + 1, tasks.get(i)));
+        if (tasks.size() > 0) {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println(String.format("%d.%s", i + 1, tasks.get(i)));
+            }
+        } else {
+            System.out.println("You don't have any tasks in your list now.");
         }
     }
 
