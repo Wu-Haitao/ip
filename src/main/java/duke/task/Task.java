@@ -1,7 +1,7 @@
 package duke.task;
 
 public class Task {
-    protected String description;
+    public String description;
     public boolean isDone;
 
     public Task(String description) {

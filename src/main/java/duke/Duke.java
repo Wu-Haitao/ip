@@ -1,22 +1,33 @@
 package duke;
 
 import java.util.ArrayList;
-
 import duke.exceptions.InvalidCommandException;
+import duke.exceptions.InvalidFileException;
 import duke.exceptions.InvalidTaskIndexException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
-import java.util.Scanner;
 
 class Duke {
-    private static int LINE_CHAR_NUM = 40;
+    private static final int LINE_CHAR_NUM = 40;
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static Scanner scan = new Scanner(System.in);
+    private static final String DIR_PATH = "data/";
+    private static final String FILE_PATH = "data/save.txt";
 
     public static void main(String[] args) {
+        try {
+            loadFile();
+        } catch (InvalidFileException exception) {
+            System.out.println("Invalid save file detected.");
+        }
         String text;
 
         drawHorizontalLine(LINE_CHAR_NUM);
@@ -36,34 +47,36 @@ class Duke {
         return scan.nextLine();
     }
 
-    private static void addToDo(String description) throws InvalidCommandException {
-        description = description.trim();
-        if (description.equals("")) throw new InvalidCommandException(1);
-        tasks.add(new ToDo(description));
-        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
+    private static void printSuccessfulAddTaskMessage(Task task) {
+        System.out.println(String.format("Got it. I've added this task to your list:\n%s", task));
         countTaskNumber();
     }
 
-    private static void addDeadline(String text) throws InvalidCommandException{
+    private static void addToDo(String description, boolean isPrintingMessage) throws InvalidCommandException {
+        description = description.trim();
+        if (description.equals("")) throw new InvalidCommandException(1);
+        tasks.add(new ToDo(description));
+        if (isPrintingMessage) printSuccessfulAddTaskMessage(tasks.get(tasks.size() - 1));
+    }
+
+    private static void addDeadline(String text, boolean isPrintingMessage) throws InvalidCommandException {
         int dividePoint = text.indexOf("/by");
         if (dividePoint == -1) throw new InvalidCommandException(2);
         String description = text.substring(0, dividePoint).trim();
         String by = text.substring(dividePoint + 3).trim();
         if (description.equals("") || by.equals("")) throw new InvalidCommandException(2);
         tasks.add(new Deadline(description, by));
-        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
-        countTaskNumber();
+        if (isPrintingMessage) printSuccessfulAddTaskMessage(tasks.get(tasks.size() - 1));
     }
 
-    private static void addEvent(String text) throws InvalidCommandException{
+    private static void addEvent(String text, boolean isPrintingMessage) throws InvalidCommandException {
         int dividePoint = text.indexOf("/at");
         if (dividePoint == -1) throw new InvalidCommandException(3);
         String description = text.substring(0, dividePoint).trim();
         String at = text.substring(dividePoint + 3).trim();
         if (description.equals("") || at.equals("")) throw new InvalidCommandException(3);
         tasks.add(new Event(description, at));
-        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
-        countTaskNumber();
+        if (isPrintingMessage) printSuccessfulAddTaskMessage(tasks.get(tasks.size() - 1));
     }
 
     private static void countTaskNumber() {
@@ -141,7 +154,7 @@ class Duke {
     }
 
     private static void echo(String text) {
-        String command = (!text.contains(" "))? text:text.substring(0,text.indexOf(" "));
+        String command = (!text.contains(" ")) ? text : text.substring(0, text.indexOf(" "));
         try {
             switch (command) {
             case "list":
@@ -155,18 +168,23 @@ class Duke {
                 break;
             case "done":
                 markAsDone(text.substring(4));
+                saveFile();
                 break;
             case "delete":
                 deleteTask(text.substring(6));
+                saveFile();
                 break;
             case "todo":
-                addToDo(text.substring(4));
+                addToDo(text.substring(4), true);
+                saveFile();
                 break;
             case "deadline":
-                addDeadline(text.substring(8));
+                addDeadline(text.substring(8), true);
+                saveFile();
                 break;
             case "event":
-                addEvent(text.substring(5));
+                addEvent(text.substring(5), true);
+                saveFile();
                 break;
             default:
                 throw new InvalidCommandException(0);
@@ -210,6 +228,73 @@ class Duke {
 
     private static void joke() {
         System.out.println("There are only 10 kinds of people in this world:\nthose who know binary and those who don't.");
+    }
+
+    private static void saveFile() {
+        try {
+            new File(DIR_PATH).mkdir();
+            new File(FILE_PATH).createNewFile();
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            String text = "";
+            for (Task task : tasks) {
+                if (task instanceof ToDo) {
+                    text += (task.isDone) ? "T|1|" : "T|0|";
+                    text += task.description + System.lineSeparator();
+                } else if (task instanceof Deadline) {
+                    text += (task.isDone) ? "D|1|" : "D|0|";
+                    text += task.description + "|" + ((Deadline) task).by + System.lineSeparator();
+                } else {
+                    text += (task.isDone) ? "E|1|" : "E|0|";
+                    text += task.description + "|" + ((Event) task).at + System.lineSeparator();
+                }
+            }
+            fileWriter.write(text);
+            fileWriter.close();
+        } catch (IOException exception) {
+            System.out.println("Accessing data failed.");
+        }
+    }
+
+    private static void loadFile() throws InvalidFileException{
+        File file = new File(FILE_PATH);
+        try {
+            Scanner fileScanner = new Scanner(file);
+            while (fileScanner.hasNext()) {
+                String taskInfo = fileScanner.nextLine();
+                char taskType = taskInfo.charAt(0);
+                boolean taskIsDone = taskInfo.charAt(2) == '1';
+                taskInfo = taskInfo.substring(4);
+                switch (taskType) {
+                case 'T':
+                    try {
+                        addToDo(taskInfo, false);
+                        tasks.get(tasks.size() - 1).isDone = taskIsDone;
+                    } catch (InvalidCommandException exception) {
+                        throw new InvalidFileException();
+                    }
+                    break;
+                case 'D':
+                    try {
+                        addDeadline(taskInfo.replace("|","/by"), false);
+                        tasks.get(tasks.size() - 1).isDone = taskIsDone;
+                    } catch (InvalidCommandException exception) {
+                        throw new InvalidFileException();
+                    }
+                    break;
+                case 'E':
+                    try {
+                        addEvent(taskInfo.replace("|", "/at"), false);
+                        tasks.get(tasks.size() - 1).isDone = taskIsDone;
+                    } catch (InvalidCommandException exception) {
+                        throw new InvalidFileException();
+                    }
+                }
+            }
+        } catch (FileNotFoundException exception) {
+            saveFile();
+            loadFile();
+        }
+
     }
 
     private static void showLogo() {
