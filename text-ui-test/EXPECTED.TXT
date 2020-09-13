@@ -11,6 +11,8 @@ Modified by Wu Haitao
 Hello! I'm Duke.
 What can I do for you?
 ----------------------------------------
+You don't have any tasks in your list now.
+----------------------------------------
 Got it. I've added this task to your list:
 [T][X] task1
 You have 1 task in the list now.
@@ -44,6 +46,23 @@ Here are the tasks in your list:
 2.[T][V] task2
 3.[D][X] task3 (by: this Friday)
 4.[E][V] task4 (at: next Sunday)
+----------------------------------------
+You're deleting this task:
+[T][X] task1
+Type yes to delete, no to cancel.
+OK! I've deleted the task.
+You have 3 tasks in the list now.
+----------------------------------------
+You're deleting this task:
+[D][X] task3 (by: this Friday)
+Type yes to delete, no to cancel.
+Deletion cancelled.
+You have 3 tasks in the list now.
+----------------------------------------
+Here are the tasks in your list:
+1.[T][V] task2
+2.[D][X] task3 (by: this Friday)
+3.[E][V] task4 (at: next Sunday)
 ----------------------------------------
 There are only 10 kinds of people in this world:
 those who know binary and those who don't.

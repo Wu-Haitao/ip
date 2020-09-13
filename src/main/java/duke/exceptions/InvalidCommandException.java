@@ -1,7 +1,7 @@
-package duke;
+package duke.exceptions;
 
 public class InvalidCommandException extends Exception {
-    protected int exceptionCode;
+    public int exceptionCode;
     public InvalidCommandException(int exceptionCode) {
         this.exceptionCode = exceptionCode;
     }
