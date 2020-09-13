@@ -1,5 +1,9 @@
 package duke;
 
+import java.util.ArrayList;
+
+import duke.exceptions.InvalidCommandException;
+import duke.exceptions.InvalidTaskIndexException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
@@ -8,14 +12,12 @@ import duke.task.ToDo;
 import java.util.Scanner;
 
 class Duke {
-    private static int taskNum;
-    private static int MAX_TASK_SIZE = 100;
     private static int LINE_CHAR_NUM = 40;
-    private static Task[] tasks = new Task[MAX_TASK_SIZE];
+    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String text = "";
+        String text;
 
         drawHorizontalLine(LINE_CHAR_NUM);
         showLogo();
@@ -24,64 +26,48 @@ class Duke {
         drawHorizontalLine(LINE_CHAR_NUM);
 
         do {
-            text = scan.nextLine();
+            text = readInput();
             echo(text);
         } while (!text.equals("bye"));
 
     }
 
-    private static void addToDo(String description) throws InvalidCommandException{
+    private static String readInput() {
+        return scan.nextLine();
+    }
+
+    private static void addToDo(String description) throws InvalidCommandException {
         description = description.trim();
         if (description.equals("")) throw new InvalidCommandException(1);
-        try {
-            tasks[taskNum] = new ToDo(description);
-            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
-            taskNum++;
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            System.out.println("Couldn't add this task because the list is full.");
-        } finally {
-            countTaskNumber();
-        }
-
+        tasks.add(new ToDo(description));
+        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
+        countTaskNumber();
     }
 
     private static void addDeadline(String text) throws InvalidCommandException{
         int dividePoint = text.indexOf("/by");
         if (dividePoint == -1) throw new InvalidCommandException(2);
         String description = text.substring(0, dividePoint).trim();
-        String by = text.substring(dividePoint + 3, text.length()).trim();
+        String by = text.substring(dividePoint + 3).trim();
         if (description.equals("") || by.equals("")) throw new InvalidCommandException(2);
-        try {
-            tasks[taskNum] = new Deadline(description, by);
-            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
-            taskNum++;
-        } catch(ArrayIndexOutOfBoundsException exception) {
-            System.out.println("Couldn't add this task because the list is full.");
-        } finally {
-            countTaskNumber();
-        }
+        tasks.add(new Deadline(description, by));
+        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
+        countTaskNumber();
     }
 
     private static void addEvent(String text) throws InvalidCommandException{
         int dividePoint = text.indexOf("/at");
         if (dividePoint == -1) throw new InvalidCommandException(3);
         String description = text.substring(0, dividePoint).trim();
-        String at = text.substring(dividePoint + 3, text.length()).trim();
+        String at = text.substring(dividePoint + 3).trim();
         if (description.equals("") || at.equals("")) throw new InvalidCommandException(3);
-        try {
-            tasks[taskNum] = new Event(description, at);
-            System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks[taskNum]));
-            taskNum++;
-        } catch(ArrayIndexOutOfBoundsException exception) {
-            System.out.println("Couldn't add this task because the list is full.");
-        } finally {
-            countTaskNumber();
-        }
-
+        tasks.add(new Event(description, at));
+        System.out.println(String.format("Got it. I've added this task to your list:\n%s", tasks.get(tasks.size() - 1)));
+        countTaskNumber();
     }
 
     private static void countTaskNumber() {
-        switch (taskNum) {
+        switch (tasks.size()) {
         case 0:
             System.out.println("You don't have any task in the list now.");
             break;
@@ -89,15 +75,15 @@ class Duke {
             System.out.println("You have 1 task in the list now.");
             break;
         default:
-            System.out.println(String.format("You have %d tasks in the list now.", taskNum));
+            System.out.println(String.format("You have %d tasks in the list now.", tasks.size()));
             break;
         }
     }
 
-    private static void markAsDone(String taskInfo) throws InvalidCommandException {
+    private static int getTaskIndex(String taskInfo) throws InvalidTaskIndexException {
         taskInfo = taskInfo.trim();
         boolean isNum = true;
-        int taskIndex = -1;
+        int taskIndex;
         for (int i = 0; i < taskInfo.length(); i++) {
             if (!Character.isDigit(taskInfo.charAt(i))) {
                 isNum = false;
@@ -107,13 +93,49 @@ class Duke {
         if (isNum && (!taskInfo.equals(""))) {
             taskIndex = Integer.parseInt(taskInfo) - 1;
         } else {
+            throw new InvalidTaskIndexException();
+        }
+        return taskIndex;
+    }
+
+    private static void markAsDone(String taskInfo) throws InvalidCommandException {
+        int taskIndex;
+        try {
+            taskIndex = getTaskIndex(taskInfo);
+        } catch (InvalidTaskIndexException exception) {
             throw new InvalidCommandException(4);
         }
         try {
-            tasks[taskIndex].isDone = true;
+            tasks.get(taskIndex).isDone = true;
             System.out.println("OK! I've marked this task as done:");
-            System.out.println(tasks[taskIndex]);
-        } catch(Exception exception) {
+            System.out.println(tasks.get(taskIndex));
+        } catch (Exception exception) {
+            System.out.println("This task doesn't exist!");
+        }
+    }
+
+    private static void deleteTask(String taskInfo) throws InvalidCommandException {
+        int taskIndex;
+        try {
+            taskIndex = getTaskIndex(taskInfo);
+        } catch (InvalidTaskIndexException exception) {
+            throw new InvalidCommandException(5);
+        }
+        try {
+            System.out.println(String.format("You're deleting this task:%n%s%nType yes to delete, no to cancel.", tasks.get(taskIndex)));
+            String answer = readInput();
+            while (!((answer.equals("yes")) || (answer.equals("no")))) {
+                System.out.println("Type yes to delete, no to cancel.");
+                answer = readInput();
+            }
+            if (answer.equals("yes")) {
+                tasks.remove(taskIndex);
+                System.out.println("OK! I've deleted the task.");
+            } else {
+                System.out.println("Deletion cancelled.");
+            }
+            countTaskNumber();
+        } catch (Exception exception) {
             System.out.println("This task doesn't exist!");
         }
     }
@@ -132,16 +154,19 @@ class Duke {
                 exit();
                 break;
             case "done":
-                markAsDone(text.substring(4, text.length()));
+                markAsDone(text.substring(4));
+                break;
+            case "delete":
+                deleteTask(text.substring(6));
                 break;
             case "todo":
-                addToDo(text.substring(4, text.length()));
+                addToDo(text.substring(4));
                 break;
             case "deadline":
-                addDeadline(text.substring(8, text.length()));
+                addDeadline(text.substring(8));
                 break;
             case "event":
-                addEvent(text.substring(5, text.length()));
+                addEvent(text.substring(5));
                 break;
             default:
                 throw new InvalidCommandException(0);
@@ -155,13 +180,16 @@ class Duke {
                 System.out.println("Incorrect command line argument(s).\ntodo -taskName");
                 break;
             case 2:
-                System.out.println("Incorrect command line argument(s).\ndeadline -taskName /by taskTime");
+                System.out.println("Incorrect command line argument(s).\ndeadline -taskName /by -taskTime");
                 break;
             case 3:
-                System.out.println("Incorrect command line argument(s).\nevent -taskName /at taskTime");
+                System.out.println("Incorrect command line argument(s).\nevent -taskName /at -taskTime");
                 break;
             case 4:
                 System.out.println("Incorrect command line argument(s).\ndone -taskIndex");
+                break;
+            case 5:
+                System.out.println("Incorrect command line argument(s).\ndelete -taskIndex");
                 break;
             }
 
@@ -171,8 +199,8 @@ class Duke {
 
     private static void list() {
         System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < taskNum; i++) {
-            System.out.println(String.format("%d.%s", i + 1, tasks[i]));
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(String.format("%d.%s", i + 1, tasks.get(i)));
         }
     }
 
