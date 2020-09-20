@@ -1,3 +1,0 @@
-T|1|task1
-D|0|task2|today
-E|0|task3|tomorrow

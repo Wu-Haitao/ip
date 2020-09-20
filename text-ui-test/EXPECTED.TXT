@@ -6,66 +6,61 @@ Hello from
 | |_| | |_| |   <  __/
 |____/ \__,_|_|\_\___|
 Modified by Wu Haitao
-
 ----------------------------------------
 Hello! I'm Duke.
 What can I do for you?
 ----------------------------------------
-You don't have any tasks in your list now.
+Here are the tasks in your list:
+1.[T][X] task1
+2.[D][X] task2 (by: tomorrow)
+3.[E][X] task3 (at: next Sunday)
 ----------------------------------------
 Got it. I've added this task to your list:
-[T][X] task1
-You have 1 task in the list now.
-----------------------------------------
-Got it. I've added this task to your list:
-[T][X] task2
-You have 2 tasks in the list now.
-----------------------------------------
-Got it. I've added this task to your list:
-[D][X] task3 (by: this Friday)
-You have 3 tasks in the list now.
-----------------------------------------
-Got it. I've added this task to your list:
-[E][X] task4 (at: next Sunday)
+[T][X] task4
 You have 4 tasks in the list now.
 ----------------------------------------
-Here are the tasks in your list:
-1.[T][X] task1
-2.[T][X] task2
-3.[D][X] task3 (by: this Friday)
-4.[E][X] task4 (at: next Sunday)
+Got it. I've added this task to your list:
+[D][X] task5 (by: today)
+You have 5 tasks in the list now.
 ----------------------------------------
-OK! I've marked this task as done:
-[T][V] task2
-----------------------------------------
-OK! I've marked this task as done:
-[E][V] task4 (at: next Sunday)
+Got it. I've added this task to your list:
+[E][X] task6 (at: next Monday)
+You have 6 tasks in the list now.
 ----------------------------------------
 Here are the tasks in your list:
 1.[T][X] task1
-2.[T][V] task2
-3.[D][X] task3 (by: this Friday)
-4.[E][V] task4 (at: next Sunday)
+2.[D][X] task2 (by: tomorrow)
+3.[E][X] task3 (at: next Sunday)
+4.[T][X] task4
+5.[D][X] task5 (by: today)
+6.[E][X] task6 (at: next Monday)
 ----------------------------------------
-You're deleting this task:
-[T][X] task1
-Type yes to delete, no to cancel.
+OK! I've marked this task as done:
+[T][V] task4
+----------------------------------------
+OK! I've marked this task as done:
+[D][V] task5 (by: today)
+----------------------------------------
+Here are the tasks in your list:
+1.[T][X] task1
+2.[D][X] task2 (by: tomorrow)
+3.[E][X] task3 (at: next Sunday)
+4.[T][V] task4
+5.[D][V] task5 (by: today)
+6.[E][X] task6 (at: next Monday)
+----------------------------------------
+OK! I've deleted the task.
+You have 5 tasks in the list now.
+----------------------------------------
+OK! I've deleted the task.
+You have 4 tasks in the list now.
+----------------------------------------
 OK! I've deleted the task.
 You have 3 tasks in the list now.
 ----------------------------------------
-You're deleting this task:
-[D][X] task3 (by: this Friday)
-Type yes to delete, no to cancel.
-Deletion cancelled.
-You have 3 tasks in the list now.
-----------------------------------------
 Here are the tasks in your list:
-1.[T][V] task2
-2.[D][X] task3 (by: this Friday)
-3.[E][V] task4 (at: next Sunday)
-----------------------------------------
-There are only 10 kinds of people in this world:
-those who know binary and those who don't.
+1.[T][X] task1
+2.[D][X] task2 (by: tomorrow)
+3.[E][X] task3 (at: next Sunday)
 ----------------------------------------
 Bye. Hope to see you again soon!
-----------------------------------------

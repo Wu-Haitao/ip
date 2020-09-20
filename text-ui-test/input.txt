@@ -1,16 +1,13 @@
 list
-todo task1
-todo task2
-deadline task3 /by this Friday
-event task4 /at next Sunday
+todo task4
+deadline task5 /by today
+event task6 /at next Monday
 list
-done 2
 done 4
+done 5
 list
-delete 1
-yes
-delete 2
-no
+delete 6
+delete 5
+delete 4
 list
-joke
 bye
