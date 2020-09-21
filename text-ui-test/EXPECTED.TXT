@@ -24,7 +24,7 @@ Got it. I've added this task to your list:
 [E][X] task3 (at: Oct 02 2020 12:00)
 You have 3 tasks in the list now.
 ----------------------------------------
-Here are the tasks in your list:
+Here are the task(s) in your list:
 1.[T][X] task1
 2.[D][X] task2 (by: Sep 20 2020 18:00)
 3.[E][X] task3 (at: Oct 02 2020 12:00)
@@ -35,15 +35,15 @@ OK! I've marked this task as done:
 OK! I've marked this task as done:
 [E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
-Here are the tasks in your list:
+Here are the task(s) in your list:
 1.[T][X] task1
 2.[D][V] task2 (by: Sep 20 2020 18:00)
 3.[E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
-Here are the tasks occurring on this date:
+Here are the task(s) occurring on this date:
 2.[D][V] task2 (by: Sep 20 2020 18:00)
 ----------------------------------------
-Here are the matching tasks in your list:
+Here are the matching task(s) in your list:
 1.[T][X] task1
 2.[D][V] task2 (by: Sep 20 2020 18:00)
 3.[E][V] task3 (at: Oct 02 2020 12:00)

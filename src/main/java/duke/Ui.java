@@ -96,7 +96,7 @@ public class Ui {
      */
     public void showTaskList(TaskList taskList) {
         if (taskList.getTaskListSize() > 0) {
-            out.println("Here are the tasks in your list:");
+            out.println("Here are the task(s) in your list:");
             for (int i = 0; i < taskList.getTaskListSize(); i++) {
                 out.println(String.format("%d.%s", i + 1, taskList.getTaskByIndex(i)));
             }
@@ -131,7 +131,7 @@ public class Ui {
         if (filteredList.isEmpty()) {
             out.println("No tasks found!");
         } else {
-            out.println("Here are the matching tasks in your list:");
+            out.println("Here are the matching task(s) in your list:");
             filteredList.stream()
                     .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
         }
@@ -145,7 +145,7 @@ public class Ui {
         if (filteredTaskList.size() == 0) {
             out.println("No tasks occurring on this date.");
         } else {
-            out.println("Here are the tasks occurring on this date:");
+            out.println("Here are the task(s) occurring on this date:");
             filteredTaskList.stream()
                     .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
         }
