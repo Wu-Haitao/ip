@@ -27,6 +27,7 @@ public class Storage {
         this.filePath = filePath;
         this.dirPath = filePath.substring(0, filePath.lastIndexOf("/"));
     }
+
     public void saveFile(TaskList taskList) throws IOException {
         new File(dirPath).mkdir();
         new File(filePath).createNewFile();
@@ -73,9 +74,9 @@ public class Storage {
                 savedTaskList.add(task);
             }
             return savedTaskList;
-        } catch (FileNotFoundException exception) {
+        } catch (FileNotFoundException e) {
             return new TaskList(new ArrayList<Task>());
-        } catch (IndexOutOfBoundsException | DateTimeParseException exception) {
+        } catch (IndexOutOfBoundsException | DateTimeParseException e) {
             throw new InvalidFileException();
         }
     }

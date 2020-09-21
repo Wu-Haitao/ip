@@ -6,6 +6,8 @@ import duke.exception.InvalidTaskIndexException;
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.ToDo;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -29,11 +31,13 @@ public class Parser {
         }
         return taskIndex;
     }
+
     private ToDo getToDo(String taskInfo) throws InvalidCommandException {
         taskInfo = taskInfo.trim();
         if (taskInfo.equals("")) throw new InvalidCommandException(1);
         return new ToDo(taskInfo);
     }
+
     public Deadline getDeadline(String taskInfo) throws InvalidCommandException {
         int dividePoint = taskInfo.indexOf("/by");
         try {
@@ -46,6 +50,7 @@ public class Parser {
             throw new InvalidCommandException(2);
         }
     }
+
     public Event getEvent(String taskInfo) throws InvalidCommandException {
         int dividePoint = taskInfo.indexOf("/at");
         try {
@@ -57,6 +62,16 @@ public class Parser {
         } catch(IndexOutOfBoundsException | DateTimeParseException e) {
             throw new InvalidCommandException(3);
         }
+    }
+
+    public LocalDate getDate(String dateInfo) throws InvalidCommandException {
+        LocalDate expectedDate;
+        try {
+            expectedDate = LocalDate.parse(dateInfo.trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            throw new InvalidCommandException(6);
+        }
+        return expectedDate;
     }
 
     public Command parseCommand(String userInput) throws InvalidCommandException {
@@ -82,6 +97,8 @@ public class Parser {
             } catch (InvalidTaskIndexException e) {
                 throw new InvalidCommandException(5);
             }
+        case "date":
+            return new FilterByDateCommand(getDate(userInput.substring("date".length())));
         default:
             throw new InvalidCommandException(0);
         }

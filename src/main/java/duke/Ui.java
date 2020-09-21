@@ -2,9 +2,15 @@ package duke;
 
 import duke.command.CommandResult;
 import duke.exception.InvalidCommandException;
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
 
 import java.io.PrintStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Ui {
     private Scanner in;
@@ -86,5 +92,19 @@ public class Ui {
         default:
             return String.format("You have %d tasks in the list now.", taskList.getTaskListSize());
         }
+    }
+
+    public void printTasksFilterByDate(ArrayList<Task> tasks, LocalDate expectedDate) {
+        ArrayList<Task> filteredTaskList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> (((t instanceof Deadline) && (((Deadline) t).by.toLocalDate().compareTo(expectedDate) == 0)) ||
+                        ((t instanceof Event) && (((Event)t).at.toLocalDate().compareTo(expectedDate) == 0))))
+                .collect(Collectors.toList());
+
+        if (filteredTaskList.size() == 0) {
+            out.println("No such task occurring on this date!");
+            return;
+        }
+        filteredTaskList.stream()
+                .forEach(out::println);
     }
 }

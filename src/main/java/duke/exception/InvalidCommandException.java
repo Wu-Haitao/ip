@@ -7,7 +7,8 @@ public class InvalidCommandException extends Exception {
             "Incorrect command line argument(s).\ndeadline -taskName /by -taskTime(yyyy-MM-dd HH:mm)",
             "Incorrect command line argument(s).\nevent -taskName /at -taskTime(yyyy-MM-dd HH:mm)",
             "Incorrect command line argument(s).\ndone -taskIndex",
-            "Incorrect command line argument(s).\ndelete -taskIndex"};
+            "Incorrect command line argument(s).\ndelete -taskIndex",
+            "Incorrect command line argument(s).\ndate -expectedDate(yyyy-MM-dd)"};
     public InvalidCommandException(int exceptionCode) {
         this.exceptionCode = exceptionCode;
     }

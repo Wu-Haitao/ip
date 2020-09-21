@@ -25,7 +25,7 @@ class Duke {
     public void initialize() {
         try {
             taskList = storage.loadFile();
-        } catch (InvalidFileException exception) {
+        } catch (InvalidFileException e) {
             ui.showInvalidFileMessage();
             taskList = new TaskList();
         }
