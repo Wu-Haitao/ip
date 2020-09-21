@@ -7,6 +7,11 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.ToDo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Parser {
 
     /**
@@ -58,10 +63,11 @@ public class Parser {
         int dividePoint = taskInfo.indexOf("/by");
         try {
             String description = taskInfo.substring(0, dividePoint).trim();
-            String by = taskInfo.substring(dividePoint + "/by".length()).trim();
-            if (description.equals("") || by.equals("")) throw new InvalidCommandException(2);
-            return new Deadline(description, by);
-        } catch(IndexOutOfBoundsException e) {
+            String byText = taskInfo.substring(dividePoint + "/by".length()).trim();
+            if (description.equals("") || byText.equals("")) throw new InvalidCommandException(2);
+            LocalDateTime byTime = LocalDateTime.parse(byText, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return new Deadline(description, byTime);
+        } catch(IndexOutOfBoundsException | DateTimeParseException e) {
             throw new InvalidCommandException(2);
         }
     }
@@ -77,12 +83,23 @@ public class Parser {
         int dividePoint = taskInfo.indexOf("/at");
         try {
             String description = taskInfo.substring(0, dividePoint).trim();
-            String at = taskInfo.substring(dividePoint + "/at".length()).trim();
-            if (description.equals("") || at.equals("")) throw new InvalidCommandException(3);
-            return new Event(description, at);
-        } catch(IndexOutOfBoundsException e) {
+            String atText = taskInfo.substring(dividePoint + "/at".length()).trim();
+            if (description.equals("") || atText.equals("")) throw new InvalidCommandException(3);
+            LocalDateTime atTime = LocalDateTime.parse(atText, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            return new Event(description, atTime);
+        } catch(IndexOutOfBoundsException | DateTimeParseException e) {
             throw new InvalidCommandException(3);
         }
+    }
+
+    public LocalDate getDate(String dateInfo) throws InvalidCommandException {
+        LocalDate expectedDate;
+        try {
+            expectedDate = LocalDate.parse(dateInfo.trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            throw new InvalidCommandException(6);
+        }
+        return expectedDate;
     }
 
     /**
@@ -116,6 +133,10 @@ public class Parser {
             } catch (InvalidTaskIndexException e) {
                 throw new InvalidCommandException(5);
             }
+        case "date":
+            return new FilterByDateCommand(getDate(userInput.substring("date".length())));
+        case "find":
+            return new FindCommand(userInput.substring("find".length()).trim());
         default:
             throw new InvalidCommandException(0);
         }

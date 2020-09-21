@@ -2,9 +2,14 @@ package duke;
 
 import duke.command.CommandResult;
 import duke.exception.InvalidCommandException;
-
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
 import java.io.PrintStream;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Ui {
     private Scanner in;
@@ -115,6 +120,34 @@ public class Ui {
             return "You have 1 task in the list now.";
         default:
             return String.format("You have %d tasks in the list now.", taskList.getTaskListSize());
+        }
+    }
+
+    public void printTasksFilteredByKeyword(ArrayList<Task> tasks, String keyword) {
+        ArrayList<Task> filteredList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> (t.description.contains(keyword)))
+                .collect(Collectors.toList());
+
+        if (filteredList.isEmpty()) {
+            out.println("No tasks found!");
+        } else {
+            out.println("Here are the matching tasks in your list:");
+            filteredList.stream()
+                    .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
+        }
+    }
+    public void printTasksFilterByDate(ArrayList<Task> tasks, LocalDate expectedDate) {
+        ArrayList<Task> filteredTaskList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> (((t instanceof Deadline) && (((Deadline) t).by.toLocalDate().compareTo(expectedDate) == 0)) ||
+                        ((t instanceof Event) && (((Event)t).at.toLocalDate().compareTo(expectedDate) == 0))))
+                .collect(Collectors.toList());
+
+        if (filteredTaskList.size() == 0) {
+            out.println("No tasks occurring on this date.");
+        } else {
+            out.println("Here are the tasks occurring on this date:");
+            filteredTaskList.stream()
+                    .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
         }
     }
 }
