@@ -9,6 +9,13 @@ import duke.task.ToDo;
 
 public class Parser {
 
+    /**
+     * Parses a string to an index of tasks.
+     *
+     * @param taskInfo a string containing the information of a task index.
+     * @return index parsed from the string
+     * @throws InvalidTaskIndexException if the string can not be parsed to an index.
+     */
     public int getTaskIndex(String taskInfo) throws InvalidTaskIndexException {
         taskInfo = taskInfo.trim();
         boolean isNum = true;
@@ -26,11 +33,27 @@ public class Parser {
         }
         return taskIndex;
     }
+
+    /**
+     * Parses a string to a to-do task.
+     *
+     * @param taskInfo a string containing the information of a to-do task.
+     * @return to-do task parsed from the string.
+     * @throws InvalidCommandException if the string can not be parsed to a to-do task.
+     */
     private ToDo getToDo(String taskInfo) throws InvalidCommandException {
         taskInfo = taskInfo.trim();
         if (taskInfo.equals("")) throw new InvalidCommandException(1);
         return new ToDo(taskInfo);
     }
+
+    /**
+     * Parses a string to a deadline task.
+     *
+     * @param taskInfo a string containing the information of a deadline task.
+     * @return deadline task parsed from the string.
+     * @throws InvalidCommandException if the string can not be parsed to a deadline task.
+     */
     public Deadline getDeadline(String taskInfo) throws InvalidCommandException {
         int dividePoint = taskInfo.indexOf("/by");
         try {
@@ -42,6 +65,14 @@ public class Parser {
             throw new InvalidCommandException(2);
         }
     }
+
+    /**
+     * Parses a string to a event task.
+     *
+     * @param taskInfo a string containing the information of event task.
+     * @return event task parsed from the string.
+     * @throws InvalidCommandException if the string can not be parsed to a event task.
+     */
     public Event getEvent(String taskInfo) throws InvalidCommandException {
         int dividePoint = taskInfo.indexOf("/at");
         try {
@@ -54,6 +85,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses the user input from raw text to a command.
+     * Returns the command to be executed.
+     *
+     * @param userInput user's input in raw text.
+     * @return command to be executed.
+     * @throws InvalidCommandException if the command doesn't follow the format and can not be executed.
+     */
     public Command parseCommand(String userInput) throws InvalidCommandException {
         String command = (!userInput.contains(" ")) ? userInput : userInput.substring(0, userInput.indexOf(" "));
         switch (command) {
