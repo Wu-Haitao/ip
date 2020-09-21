@@ -101,10 +101,11 @@ public class Ui {
                 .collect(Collectors.toList());
 
         if (filteredTaskList.size() == 0) {
-            out.println("No such task occurring on this date!");
-            return;
+            out.println("No tasks occurring on this date.");
+        } else {
+            out.println("Here are the tasks occurring on this date:");
+            filteredTaskList.stream()
+                    .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
         }
-        filteredTaskList.stream()
-                .forEach(out::println);
     }
 }
