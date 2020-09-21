@@ -22,7 +22,7 @@ public class Ui {
             + "Modified by Wu Haitao";
     private static final String JOKE = "There are only 10 kinds of people in this world:\n" +
             "those who know binary and those who don't.";
-    //Number of '-' consisted in the horizontal line
+    /** Number of '-' consisted in the horizontal line */
     private static final int LINE_CHAR_NUM = 40;
 
     public Ui() {
@@ -34,6 +34,7 @@ public class Ui {
         this.out = out;
     }
 
+    /** Prints welcome messages at the beginning of the program. */
     public void greet() {
         drawHorizontalLine();
         out.println("Hello from");
@@ -43,34 +44,56 @@ public class Ui {
         drawHorizontalLine();
     }
 
+    /** Draws a separate line. */
     public void drawHorizontalLine() {
         out.println("-".repeat(LINE_CHAR_NUM));
     }
 
+    /** Prints an error message if the program failed to load data from the file. */
     public void showInvalidFileMessage() {
         out.println("Accessing local data failed");
     }
 
+    /** Prints an error message if the user gives a invalid command. */
     public void showInvalidCommandMessage(InvalidCommandException exception) {
         out.println(exception.getExceptionMessage());
     }
 
+    /** Prints an error message when user tries to modify a nonexistent task. */
     public void showInvalidIndexMessage() {
         out.println("Invalid index!");
     }
 
+    /** Says goodbye when user exits the program */
     public void showExitMessage() {
         out.println("Bye. Hope to see you again soon!");
     }
 
+    /**
+     * Reads the text entered by the user.
+     *
+     * @return command (full line) entered by the user
+     */
     public String getUserInput() {
         return in.nextLine();
     }
 
+    /**
+     * Prints the messages accordingly when a command is successfully executed.
+     * Ignores empty result.
+     *
+     * @param result result of the command.
+     */
     public void showCommandResult(CommandResult result) {
         if (result != null) out.println(result.getResult());
     }
 
+    /**
+     * Prints the whole list of tasks with each has an index.
+     * Prompts if the list is empty.
+     *
+     * @param taskList task list to be printed.
+     */
     public void showTaskList(TaskList taskList) {
         if (taskList.getTaskListSize() > 0) {
             out.println("Here are the tasks in your list:");
@@ -82,6 +105,13 @@ public class Ui {
         }
     }
 
+    /**
+     * Counts the number of tasks in the list.
+     * returns messages with number of tasks.
+     *
+     * @param taskList task list to be checked.
+     * @return prompt messages with number of tasks in the list.
+     */
     public String checkNumberOfTask(TaskList taskList) {
         switch (taskList.getTaskListSize()) {
         case 0:

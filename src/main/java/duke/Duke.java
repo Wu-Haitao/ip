@@ -16,12 +16,17 @@ class Duke {
         storage = new Storage(filePath);
     }
 
+    /** Runs the program until termination. */
     public void run() {
         initialize();
         runCommandLoopUntilExit();
         exit();
     }
 
+    /**
+     * Initializes the program.
+     * Prints welcome messages.
+     */
     public void initialize() {
         try {
             taskList = storage.loadFile();
@@ -32,6 +37,11 @@ class Duke {
         ui.greet();
     }
 
+    /**
+     * Receives user's input.
+     * Executes commands.
+     * Terminates the program when receives exit command.
+     */
     public void runCommandLoopUntilExit() {
         String userInput;
         userInput = ui.getUserInput();
@@ -51,6 +61,7 @@ class Duke {
         }
     }
 
+    /** Prints exit messages */
     public void exit() {
         ui.showExitMessage();
     }

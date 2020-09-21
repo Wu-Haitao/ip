@@ -28,6 +28,13 @@ public class Storage {
         this.dirPath = filePath.substring(0, filePath.lastIndexOf("/"));
     }
 
+    /**
+     * Saves the current data from the task list to a local file.
+     * Creates a new file if the file doesn't exist.
+     *
+     * @param taskList task list to be saved.
+     * @throws IOException if a I/O failure occurs.
+     */
     public void saveFile(TaskList taskList) throws IOException {
         new File(dirPath).mkdir();
         new File(filePath).createNewFile();
@@ -46,6 +53,13 @@ public class Storage {
         fileWriter.close();
     }
 
+    /**
+     * Loads the local file from a certain path.
+     * Returns the decrypted data.
+     *
+     * @return task list with data read from the local file.
+     * @throws InvalidFileException if the local file doesn't fulfil the format of data and can not be read.
+     */
     public TaskList loadFile() throws InvalidFileException {
         TaskList savedTaskList = new TaskList(new ArrayList<Task>());
         File file = new File(filePath);
