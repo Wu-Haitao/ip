@@ -70,9 +70,9 @@ public class Storage {
                 savedTaskList.add(task);
             }
             return savedTaskList;
-        } catch (FileNotFoundException exception) {
+        } catch (FileNotFoundException e) {
             return new TaskList(new ArrayList<Task>());
-        } catch (IndexOutOfBoundsException exception) {
+        } catch (IndexOutOfBoundsException e) {
             throw new InvalidFileException();
         }
     }

@@ -2,9 +2,12 @@ package duke;
 
 import duke.command.CommandResult;
 import duke.exception.InvalidCommandException;
+import duke.task.Task;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Ui {
     private Scanner in;
@@ -85,6 +88,19 @@ public class Ui {
             return "You have 1 task in the list now.";
         default:
             return String.format("You have %d tasks in the list now.", taskList.getTaskListSize());
+        }
+    }
+
+    public void printTasksFilteredByKeyword(ArrayList<Task> tasks, String keyword) {
+        ArrayList<Task> filteredList = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> (t.description.contains(keyword)))
+                .collect(Collectors.toList());
+
+        if (filteredList.isEmpty()) {
+            out.println("No tasks found!");
+        } else {
+            filteredList.stream()
+                    .forEach(out::println);
         }
     }
 }

@@ -10,57 +10,51 @@ Modified by Wu Haitao
 Hello! I'm Duke.
 What can I do for you?
 ----------------------------------------
-Here are the tasks in your list:
-1.[T][X] task1
-2.[D][X] task2 (by: tomorrow)
-3.[E][X] task3 (at: next Sunday)
+You don't have any tasks in your list now.
 ----------------------------------------
 Got it. I've added this task to your list:
-[T][X] task4
-You have 4 tasks in the list now.
+[T][X] task1
+You have 1 task in the list now.
 ----------------------------------------
 Got it. I've added this task to your list:
-[D][X] task5 (by: today)
-You have 5 tasks in the list now.
+[D][X] task2 (by: today)
+You have 2 tasks in the list now.
 ----------------------------------------
 Got it. I've added this task to your list:
-[E][X] task6 (at: next Monday)
-You have 6 tasks in the list now.
-----------------------------------------
-Here are the tasks in your list:
-1.[T][X] task1
-2.[D][X] task2 (by: tomorrow)
-3.[E][X] task3 (at: next Sunday)
-4.[T][X] task4
-5.[D][X] task5 (by: today)
-6.[E][X] task6 (at: next Monday)
-----------------------------------------
-OK! I've marked this task as done:
-[T][V] task4
-----------------------------------------
-OK! I've marked this task as done:
-[D][V] task5 (by: today)
-----------------------------------------
-Here are the tasks in your list:
-1.[T][X] task1
-2.[D][X] task2 (by: tomorrow)
-3.[E][X] task3 (at: next Sunday)
-4.[T][V] task4
-5.[D][V] task5 (by: today)
-6.[E][X] task6 (at: next Monday)
-----------------------------------------
-OK! I've deleted the task.
-You have 5 tasks in the list now.
-----------------------------------------
-OK! I've deleted the task.
-You have 4 tasks in the list now.
-----------------------------------------
-OK! I've deleted the task.
+[E][X] task3 (at: next Monday)
 You have 3 tasks in the list now.
 ----------------------------------------
 Here are the tasks in your list:
 1.[T][X] task1
-2.[D][X] task2 (by: tomorrow)
-3.[E][X] task3 (at: next Sunday)
+2.[D][X] task2 (by: today)
+3.[E][X] task3 (at: next Monday)
+----------------------------------------
+OK! I've marked this task as done:
+[T][V] task1
+----------------------------------------
+OK! I've marked this task as done:
+[D][V] task2 (by: today)
+----------------------------------------
+Here are the tasks in your list:
+1.[T][V] task1
+2.[D][V] task2 (by: today)
+3.[E][X] task3 (at: next Monday)
+----------------------------------------
+[T][V] task1
+[D][V] task2 (by: today)
+[E][X] task3 (at: next Monday)
+----------------------------------------
+No tasks found!
+----------------------------------------
+OK! I've deleted the task.
+You have 2 tasks in the list now.
+----------------------------------------
+OK! I've deleted the task.
+You have 1 task in the list now.
+----------------------------------------
+OK! I've deleted the task.
+You don't have any task in the list now.
+----------------------------------------
+You don't have any tasks in your list now.
 ----------------------------------------
 Bye. Hope to see you again soon!

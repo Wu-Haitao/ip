@@ -77,6 +77,8 @@ public class Parser {
             } catch (InvalidTaskIndexException e) {
                 throw new InvalidCommandException(5);
             }
+        case "find":
+            return new FindCommand(userInput.substring("find".length()).trim());
         default:
             throw new InvalidCommandException(0);
         }
