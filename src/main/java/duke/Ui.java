@@ -99,8 +99,9 @@ public class Ui {
         if (filteredList.isEmpty()) {
             out.println("No tasks found!");
         } else {
+            out.println("Here are the matching tasks in your list:");
             filteredList.stream()
-                    .forEach(out::println);
+                    .forEach((t) -> out.println(String.format("%d.%s", tasks.indexOf(t) + 1, t)));
         }
     }
 }
