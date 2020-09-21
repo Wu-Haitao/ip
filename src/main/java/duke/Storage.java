@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,6 +27,7 @@ public class Storage {
         this.filePath = filePath;
         this.dirPath = filePath.substring(0, filePath.lastIndexOf("/"));
     }
+
     public void saveFile(TaskList taskList) throws IOException {
         new File(dirPath).mkdir();
         new File(filePath).createNewFile();
@@ -33,9 +37,9 @@ public class Storage {
             if (task instanceof ToDo) {
                 text += ((task.isDone) ? "T|1|" : "T|0|") + task.description + System.lineSeparator();
             } else if (task instanceof Deadline) {
-                text += ((task.isDone) ? "D|1|" : "D|0|") + task.description + "|" + ((Deadline) task).by + System.lineSeparator();
+                text += ((task.isDone) ? "D|1|" : "D|0|") + task.description + "|" + ((Deadline) task).by.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm")) + System.lineSeparator();
             } else {
-                text += ((task.isDone) ? "E|1|" : "E|0|") + task.description + "|" + ((Event) task).at + System.lineSeparator();
+                text += ((task.isDone) ? "E|1|" : "E|0|") + task.description + "|" + ((Event) task).at.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm")) + System.lineSeparator();
             }
         }
         fileWriter.write(text);
@@ -58,10 +62,10 @@ public class Storage {
                     task = new ToDo(taskInfo);
                     break;
                 case 'D':
-                    task = new Deadline(taskInfo.substring(0, taskInfo.indexOf('|')), taskInfo.substring(taskInfo.indexOf('|') + 1));
+                    task = new Deadline(taskInfo.substring(0, taskInfo.indexOf('|')), LocalDateTime.parse(taskInfo.substring(taskInfo.indexOf('|') + 1), DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm")));
                     break;
                 case 'E':
-                    task = new Event(taskInfo.substring(0, taskInfo.indexOf('|')), taskInfo.substring(taskInfo.indexOf('|') + 1));
+                    task = new Event(taskInfo.substring(0, taskInfo.indexOf('|')), LocalDateTime.parse(taskInfo.substring(taskInfo.indexOf('|') + 1), DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm")));
                     break;
                 default:
                     throw new InvalidFileException();
@@ -72,7 +76,7 @@ public class Storage {
             return savedTaskList;
         } catch (FileNotFoundException e) {
             return new TaskList(new ArrayList<Task>());
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException | DateTimeParseException e) {
             throw new InvalidFileException();
         }
     }

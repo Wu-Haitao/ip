@@ -17,32 +17,36 @@ Got it. I've added this task to your list:
 You have 1 task in the list now.
 ----------------------------------------
 Got it. I've added this task to your list:
-[D][X] task2 (by: today)
+[D][X] task2 (by: Sep 20 2020 18:00)
 You have 2 tasks in the list now.
 ----------------------------------------
 Got it. I've added this task to your list:
-[E][X] task3 (at: next Monday)
+[E][X] task3 (at: Oct 02 2020 12:00)
 You have 3 tasks in the list now.
 ----------------------------------------
 Here are the tasks in your list:
 1.[T][X] task1
-2.[D][X] task2 (by: today)
-3.[E][X] task3 (at: next Monday)
+2.[D][X] task2 (by: Sep 20 2020 18:00)
+3.[E][X] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
 OK! I've marked this task as done:
-[T][V] task1
+[D][V] task2 (by: Sep 20 2020 18:00)
 ----------------------------------------
 OK! I've marked this task as done:
-[D][V] task2 (by: today)
+[E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
 Here are the tasks in your list:
-1.[T][V] task1
-2.[D][V] task2 (by: today)
-3.[E][X] task3 (at: next Monday)
+1.[T][X] task1
+2.[D][V] task2 (by: Sep 20 2020 18:00)
+3.[E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
-[T][V] task1
-[D][V] task2 (by: today)
-[E][X] task3 (at: next Monday)
+Here are the tasks occurring on this date:
+2.[D][V] task2 (by: Sep 20 2020 18:00)
+----------------------------------------
+Here are the matching tasks in your list:
+1.[T][X] task1
+2.[D][V] task2 (by: Sep 20 2020 18:00)
+3.[E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
 No tasks found!
 ----------------------------------------

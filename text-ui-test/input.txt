@@ -1,11 +1,12 @@
 list
 todo task1
-deadline task2 /by today
-event task3 /at next Monday
+deadline task2 /by 2020-09-20 18:00
+event task3 /at 2020-10-02 12:00
 list
-done 1
 done 2
+done 3
 list
+date 2020-09-20
 find task
 find task4
 delete 3
