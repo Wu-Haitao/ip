@@ -6,6 +6,9 @@ list
 done 2
 done 3
 list
+date 2020-09-20
+find task
+find task4
 delete 3
 delete 2
 delete 1

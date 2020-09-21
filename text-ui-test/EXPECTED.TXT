@@ -40,6 +40,16 @@ Here are the tasks in your list:
 2.[D][V] task2 (by: Sep 20 2020 18:00)
 3.[E][V] task3 (at: Oct 02 2020 12:00)
 ----------------------------------------
+Here are the tasks occurring on this date:
+2.[D][V] task2 (by: Sep 20 2020 18:00)
+----------------------------------------
+Here are the matching tasks in your list:
+1.[T][X] task1
+2.[D][V] task2 (by: Sep 20 2020 18:00)
+3.[E][V] task3 (at: Oct 02 2020 12:00)
+----------------------------------------
+No tasks found!
+----------------------------------------
 OK! I've deleted the task.
 You have 2 tasks in the list now.
 ----------------------------------------

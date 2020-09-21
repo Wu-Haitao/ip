@@ -99,6 +99,8 @@ public class Parser {
             }
         case "date":
             return new FilterByDateCommand(getDate(userInput.substring("date".length())));
+        case "find":
+            return new FindCommand(userInput.substring("find".length()).trim());
         default:
             throw new InvalidCommandException(0);
         }
